@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>個人介紹 - 多媒體系統設計</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Varela+Round&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 全域設定 --- */
+        * {
+            box-sizing: border-box;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; 
+            background-color: #000000;
+        }
+
+        .page-wrapper {
+            width: 100vw;
+            height: 100vh;
+            min-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            border-left: 200px solid black; 
+            border-right: 200px solid black; 
+            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("public_html/IMG/bg.png"); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* --- Header 部分 --- */
+        header {
+            width: 100%;
+            height: 150px; 
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 0 50px;
+            z-index: 10;
+        }
+
+        .top-left-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .profile-circle {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .profile-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .site-title {
+            font-family: 'Varela Round', sans-serif;
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #ffffff, #bbbbbb, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- 中央主要資訊區塊 (個人介紹) --- */
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            padding: 0 50px;
+            
+            /* 【新增】整體向左平移 120px */
+            transform: translateX(-120px); 
+        }
+
+        /* 介紹容器 */
+        .intro-container {
+            background-color: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            width: 1000px;
+            height: 600px;
+            display: flex; 
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        /* 左側照片欄位 */
+        .photo-section {
+            flex: 0.4;
+            background-color: rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+        }
+
+        .personal-photo {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background-image: url("public_html/IMG/intro.jpeg");
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* 右側文字資訊欄位 */
+        .text-section {
+            flex: 0.6;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .intro-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            margin: 0 0 10px 0;
+            background: linear-gradient(45deg, #ffffff, #999999, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .intro-subtitle {
+            font-family: 'Varela Round', sans-serif;
+            font-size: 1.5rem;
+            color: #ccc;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+
+        .intro-text {
+            font-family: 'Varela Round', sans-serif;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: justify;
+        }
+
+        /* --- Footer 部分 --- */
+        footer {
+            position: absolute;
+           bottom: 90px;
+            right: 50px;
+            z-index: 10;
+        }
+
+        .nav-container {
+            background-color: rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column; 
+            gap: 15px;
+            width: 200px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .nav-btn {
+            font-family: 'Varela Round', sans-serif;
+            border-radius: 50px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .nav-btn.active {
+            background: white;
+            color: #000;
+        }
+
+        .nav-btn:hover {
+            background: white;
+            color: #000;
+            transform: scale(1.05) translateX(-5px);
+            box-shadow: 0 5px 15px rgba(255,255,255,0.3);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <header>
+            <div class="top-left-info">
+                <div class="profile-circle">
+                    <img src="public_html/IMG/icon.png" alt="Profile">
+                </div>
+                <div class="site-title">
+                    <a href="index.html"> 多媒體系統設計．個人網站</a>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="intro-container">
+                <div class="photo-section">
+                    <div class="personal-photo"></div>
+                </div>
+
+                <div class="text-section">
+                    <h1 class="intro-title">About Me</h1>
+                    <h2 class="intro-subtitle">多媒體設計系 二年級</h2>
+                    <div class="intro-text">
+                        您好！我是一名專注於多媒體系統設計的創作者。我熱衷於透過數位媒介探索視覺與互動的可能性，
+                        並致力於將生成式 AI 技術融入日常設計工作流中。對我而言，設計不只是外觀的呈現，
+                        更是邏輯與美感之間的橋樑。<br><br>
+                        在這裡，我分享我的企劃構想與創作過程，請多指教！
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="nav-container">
+                <a href="#" class="nav-btn active">個人介紹</a>
+                <a href="3_ALL.html" class="nav-btn" target="_blank" rel="noopener noreferrer">網站練習</a>
+                <a href="IPP.html" class="nav-btn">個人企劃書</a>
+                <a href="GPP.html" class="nav-btn">團隊企劃書</a>
+            </div>
+        </footer>
+    </div>
+
+</body>
+</html>

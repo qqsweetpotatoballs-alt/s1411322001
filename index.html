@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>個人網站 - 多媒體系統設計</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Varela+Round&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 全域設定：強制 1920x1080 比例感 --- */
+        * {
+            box-sizing: border-box;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* 確保 100% 畫面無捲軸 */
+            background-color: #000000; /* 底色設為黑色，確保邊框視覺純淨 */
+        }
+
+        /* 建立一個主容器來維持 1920x1080 的佈局 */
+        .page-wrapper {
+            width: 100vw;
+            height: 100vh;
+            min-width: 1200px; /* 防止極小螢幕破版 */
+            display: flex;
+            flex-direction: column;
+            position: relative;
+
+            /* --- 左右黑邊設定 --- */
+            /* 這裡設定為 20px 的黑邊，您可以根據需求修改數值 */
+            border-left: 200px solid black; 
+            border-right: 200px solid black; 
+            
+            /* 【背景圖 - 保持原狀】 */
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url("public_html/IMG/bg.png"); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* --- Header 部分 --- */
+        header {
+            width: 100%;
+            height: 150px; 
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 0 50px;
+            z-index: 10;
+        }
+
+        .top-left-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .profile-circle {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .profile-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .site-title {
+            font-family: 'Varela Round', sans-serif;
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #ffffff, #bbbbbb, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- Footer 部分：直列式顯示於右下角 --- */
+        footer {
+            position: absolute;
+            bottom:35px;
+            right: 50px;
+            z-index: 10;
+        }
+
+        .nav-container {
+            background-color: rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column; 
+            gap: 15px;
+            width: 200px;
+            height: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .nav-btn {
+            font-family: 'Varela Round', sans-serif;
+            border-radius: 50px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .nav-btn:hover {
+            background: white;
+            color: #000;
+            transform: scale(1.05) translateX(-5px);
+            box-shadow: 0 5px 15px rgba(255,255,255,0.3);
+        }
+
+        /* --- 中央 Logo 部分 --- */
+        .main-content {
+            flex: 0.5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
+            text-align: center;
+        }
+
+        .logo-image {
+            width: 700px;
+            max-width: 50%;
+            filter: drop-shadow(0 15px 40px rgba(0,0,0,0.7));
+            margin-bottom: 0;
+        }
+
+        .logo-image img {
+            width: 100%;
+            height: auto;
+        }
+
+        .cursive-text {
+            font-family: 'Dancing Script', cursive; 
+            font-size: 2.0rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ffffff, #999999, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: -15px; 
+            letter-spacing: 3px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <header>
+            <div class="top-left-info">
+                <div class="profile-circle">
+                    <img src="public_html/IMG/icon.png" alt="Profile">
+                </div>
+                <div class="site-title">
+                    多媒體系統設計．個人網站
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="logo-image">
+                <img src="public_html/IMG/logo01.png" alt="Logo">
+            </div>
+
+            <div class="cursive-text">
+                Are you ready to Bound IN?
+            </div>
+        </main>
+
+        <footer>
+            <div class="nav-container">
+                <a href="introl.html" class="nav-btn">個人介紹</a>
+                <a href="3_ALL.html" class="nav-btn" target="_blank" rel="noopener noreferrer">網站練習</a>
+                <a href="IPP.html" class="nav-btn">個人企劃書</a>
+                <a href="GPP.html" class="nav-btn">團隊企劃書</a>
+            </div>
+        </footer>
+    </div>
+
+</body>
+</html>

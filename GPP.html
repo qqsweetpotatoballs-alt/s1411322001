@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>團隊企劃書 - BOUND TOGETHER</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Varela+Round&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* --- 全域設定：維持 1920x1080 比例感 --- */
+        * {
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000000;
+        }
+
+        .page-wrapper {
+            width: 100vw;
+            height: 100vh;
+            min-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            /* 左右 200px 黑邊 */
+            border-left: 200px solid black;
+            border-right: 200px solid black;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url("public_html/IMG/bg.png");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        header {
+            width: 100%;
+            height: 150px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 0 50px;
+            z-index: 10;
+        }
+
+        .top-left-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .profile-circle {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .profile-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .site-title {
+            font-family: 'Varela Round', sans-serif;
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #ffffff, #bbbbbb, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .site-title a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- 中央主要資訊區塊 --- */
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px 50px;
+            /* 向左平移 120px */
+            transform: translateX(-120px);
+        }
+
+        .proposal-container {
+            background-color: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            width: 1150px;
+            height: calc(100vh - 200px);
+            padding: 50px 70px;
+            overflow-y: auto;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+        }
+
+        .proposal-container p,
+        .proposal-container div,
+        .proposal-container li {
+            color: #f0f0f0;
+            line-height: 1.8;
+            font-family: 'Varela Round', "Microsoft JhengHei", sans-serif;
+            font-size: 1.05rem;
+        }
+
+        .proposal-header {
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 30px;
+            margin-bottom: 40px;
+        }
+
+        .proposal-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4.5rem;
+            margin: 0;
+            background: linear-gradient(45deg, #ffffff, #cccccc, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .proposal-meta {
+            color: #aaa;
+            margin-top: 10px;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        .proposal-img {
+            display: block;
+            width: 100%;
+            max-width: 850px;
+            margin: 30px auto;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #fff;
+            margin: 60px 0 30px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100px;
+            height: 2px;
+            background: white;
+        }
+
+        .subsection-title {
+            font-size: 1.4rem;
+            color: #ffffff;
+            margin: 30px 0 15px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .subsection-title::before {
+            content: '●';
+            margin-right: 10px;
+            font-size: 0.8rem;
+        }
+
+        .toc-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            columns: 2;
+        }
+
+        .toc-list a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .toc-list a:hover {
+            color: white;
+            padding-left: 10px;
+        }
+
+        /* --- 表格樣式 --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        /* --- Footer 導覽 --- */
+        footer {
+            position: absolute;
+            bottom: 35px;
+            right: 50px;
+            z-index: 10;
+        }
+
+        .nav-container {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 200px;
+        }
+
+        .nav-btn {
+            font-family: 'Varela Round', sans-serif;
+            border-radius: 50px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.4s;
+        }
+
+        .nav-btn.active {
+            background: white;
+            color: #000;
+        }
+
+        .resource-row {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-small {
+            font-size: 0.85rem;
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn-small:hover {
+            background: white;
+            color: black;
+        }
+
+        /* 投影片樣式 */
+        .story-slider {
+            width: 100%;
+            max-width: 800px;
+            margin: 30px auto;
+        }
+
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .slider-controls button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid white;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .slider-controls button:hover {
+            background: white;
+            color: black;
+        }
+
+        .logo-image {
+            width: 30%;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page-wrapper">
+        <header>
+            <div class="top-left-info">
+                <div class="profile-circle">
+                    <img src="public_html/IMG/icon.png" alt="Profile">
+                </div>
+                <div class="site-title">
+                    <a href="index.html">多媒體系統設計．個人網站</a>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="proposal-container">
+                <section id="top">
+                    <div class="proposal-header">
+                        <h1><img src="public_html/GIMG/Logo.png" class="logo-image"></h1>
+                        <div class="proposal-meta">
+                            組員：黃玟潔、楊舒喩、孫韻文、呂友辰、許立楷、陳天豪<br>
+                            指導老師：陳賢錫
+                        </div>
+                        <div class="resource-row">
+                            <a href="public_html/Project/BoundTogether_GPP.pdf" target="_blank"
+                                class="btn-small">團隊企劃書PDF (檢視)</a>
+                            <a href="public_html/Project/BoundTogether_GPP.pptx" class="btn-small" download class="btn-small">團隊簡報PPT (下載)</a>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="toc-box">
+                    <h3 style="margin-top:0;">目錄</h3>
+                    <ul class="toc-list">
+                        <li><a href="#sec1">壹、遊戲類型 & 適用平台</a></li>
+                        <li><a href="#sec2">貳、企劃理念 & 故事大綱</a></li>
+                        <li><a href="#sec3">參、核心玩法與機制</a></li>
+                        <li><a href="#sec4">肆、遊戲流程</a></li>
+                        <li><a href="#sec5">伍、視覺與介面設計</a></li>
+                        <li><a href="#sec6">陸、關卡設計</a></li>
+                        <li><a href="#sec7">柒、標準字設計</a></li>
+                        <li><a href="#sec8">捌、介面設計</a></li>
+                        <li><a href="#sec9">玖、工作分配</a></li>
+                        <li><a href="#sec9">拾、參考遊戲</a></li>
+
+                    </ul>
+                </div>
+
+                <section id="sec1">
+                    <h2 class="section-title">壹、遊戲類型 & 適用平台</h2>
+                    <h3 class="subsection-title">遊戲類型</h3>
+                    <p> ◆ 雙人合作<br>◆ 無盡酷跑<br>◆ 冒險<br>
+                    </p>
+                    <h3 class="subsection-title">適用平台</h3>
+                    <p>◆ 桌機平台： Windows, macOS</p>
+                    <p style="text-align: right;"><a href="#top" style="color:white;">回到上方 ▲</a></p>
+                </section>
+
+                <section id="sec2">
+                    <h2 class="section-title">貳、企劃理念 & 故事大綱</h2>
+                    <h3 class="subsection-title">企劃理念</h3>
+                    <p>《BOUND TOGETHER》的核心目標是讓「合作」成為遊戲的靈魂與致勝關鍵，整個遊戲聚焦於「只有在一起，才能走得更遠」的理念。
+                        透過兩位玩家共用一條不可分離的「繫線」，將「羈絆」從單純的劇情設定轉化為核心的遊玩機制：<br><br>
+                        機制與情感的結合： 「繫線」是挑戰的來源，它限制了個體的自由，同時也是唯一能讓他們突破困境的希望與力量。<br>
+                        操作與信任的共鳴： 玩家必須在極高壓的無盡酷跑環境中進行精準的協調與移動，每一次向前、跳躍與閃避，都需要建立在對夥伴行動的深入理解與完全信任之上。<br><br>
+                        最終，透過這條「繫線」的操作與感受，體會到「信任是持續前進的唯一燃料」，並在遊戲中真實領悟到雙人合作的深刻意義。
+                    </p>
+                    <h3 class="subsection-title">故事大綱</h3>
+                    <p>在被稱為「迴音之境」的古老地下文明中，一場名為「大寂靜」的災難凍結了世界，兩個微小的生命體——光精靈與影精靈——在世界核心「光心」即將熄滅的微光中誕生。<br><br>
+                        他們一出生就被一條「迴響之線」緊密連結，這條線既是生命的保障，也是無可逃脫的束縛，為了阻止黑暗力量「虛無之黯」徹底吞噬世界，他們被迫踏上無盡的奔跑旅程。<br><br>
+                        前進的目標並非拯救世界，而是透過極致的合作與信任，跨越遺跡與陷阱，收集失落的「迴音」，只有持續的奔跑與不斷強化的「繫線」，才能為瀕死的「光心」提供永恆的動能，這是一場沒有終點的競賽，他們必須以永不熄滅的羈絆，成為世界的「光流」，守護這片黃昏之境，讓希望成為永恆。
+                    </p>
+                    <p style="text-align: right;"><a href="#top" style="color:white;">回到上方 ▲</a></p>
+                </section>
+
+                <section id="sec3">
+                    <h2 class="section-title">參、核心玩法與機制</h2>
+                    <h3 style="color: #ffffff; font-size: larger;">1、基本遊戲操作</h3>
+                    <p>《BOUND TOGETHER》是一款強調雙人合作與精準同步的 2D 橫向無盡酷跑遊戲，其核心機制圍繞一條「迴響之線」展開，這條線將兩名玩家緊密連結，成為遊戲的靈魂。<br></p>
+                    <h3 style="color: #ffffff; font-size: medium;">模式：<br></h3>
+                    <p>◆ 同機共命：兩位玩家在同一台裝置上，分割畫面或共用螢幕進行合作操作。<br>
+                        ◆ 線上連絆：兩位玩家透過網路連線，在各自裝置上組隊，進行遠端合作。<br>
+                        ◆ 光影共振：玩家單獨操控其中一位精靈，另一位精靈則由智能電腦夥伴操作，電腦擁有穩定的「錨點/動力」傾向，供玩家練習與挑戰極限。<br></p>
+                    <h3 style="color: #ffffff; font-size: medium;">類型：<br></h3>
+                    <p>◆ 關卡挑戰模式：挑戰預設的系列關卡，目標是在時間限制內跑完設定的距離，關卡難度隨進度增加 (時間更短、機關更複雜)。</p>
+
+                    <h3 style="color: #ffffff; font-size: larger;">2、 環境互動與挑戰</h3>
+                    <p>◆ 同步啟動/平衡：光影閘門、崩塌平台要求兩位玩家必須在精準的位置與時間點同步行動（如同時站在開關上），才能開啟通路。<br>◆ 拉扯與固定：錨點懸吊、光流汲取器
+                        要求一位玩家扮演「錨點」固定位置，另一位玩家利用繫線進行盪越或脫困。<br>◆ 瞬時通過：吞噬活塞、迴響鋸齒群要求兩位玩家在極短、極小的安全間隙中，達成速度與身位的瞬間同步。<br><br>
+                    </p>
+                    <h3 style="color: #ffffff; font-size: larger;">3、核心機制：迴響之線</h3>
+                    <table>
+                        <tr>
+                            <th></th>
+                            <th>說明</th>
+                            <th>遊戲影響與應用</th>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">繫線制約</td>
+                            <td>兩位玩家必須獨立操控各自角色的水平移動與跳躍，但被一條長度固定的繫線連結，繫線決定了雙方動作會產生直接的相互影響與拉力。</td>
+                            <td>玩家不能超出繫線的最大長度，任何魯莽的動作都會導致隊友被拉扯失衡或撞擊陷阱，若玩家持續往不同方向拉扯，恐導致其中一方掉落或被怪物吞噬。</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">張力與弛力</td>
+                            <td>玩家需利用繫線的兩種狀態來通過關卡：<br>
+                                <p style="font-size: small">1. 張力 ： 繫線拉緊時的強大牽引力，用於拉動隊友脫困或進行遠距離盪越。<br>2. 弛力：
+                                    繫線放鬆時的短暫自由，用於精準調整站位或躲避近身陷阱。</p>
+                            </td>
+                            <td>成功通過「錨點懸吊」、「吞噬活塞」等機關的關鍵，是掌握繫線的鬆緊變化。</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">強制捲軸與懲罰</td>
+                            <td>畫面將穩定向右推進，象徵「光流」必須持續流動。</td>
+                            <td>任何一方被畫面左側邊緣追上即視為掉入深淵，立即結束旅程，這迫使玩家保持持續的同步速度。</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">生命懲罰</td>
+                            <td>兩名玩家的「光心」會提供三次共鳴修復機會 (生命數)。</td>
+                            <td>任一方掉入深淵或耗盡三次生命，旅程即刻結束，強調彼此必須視為一體。</td>
+                        </tr>
+                    </table>
+
+                    <h3 style="color: #ffffff; font-size: larger;">4、虛無之黯具象化陷阱</h3>
+                    <table>
+                        <tr>
+                            <th></th>
+                            <th>遊戲機制</th>
+                            <th>合作要求</th>
+                            <th>故事意義</th>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">吞噬活塞</td>
+                            <td>伸縮的黑曜石巨柱，會在玩家通過時高速閉合。</td>
+                            <td>精準同步： 必須在活塞之間短暫的開啟瞬間，兩人同時且同步地加速通過。</td>
+                            <td>象徵「虛無之黯」企圖用物理力量將「光流」壓碎。</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">迴響鋸齒</td>
+                            <td>象徵「虛無之黯」企圖用物理力量將「光流」壓碎。</td>
+                            <td>長度控制： 有些需要將繫線拉到最緊（光精靈在外圈，影精靈在內圈）以避開旋轉半徑；有些則需要放鬆（兩人貼近）從鋸齒間隙通過。</td>
+                            <td>「虛無之黯」試圖用銳利邊緣切斷「繫線之絆」。</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">光流汲取器</td>
+                            <td>環境中吸附在牆壁或地面，會緩慢吸走光精靈或影精靈的特殊力場。</td>
+                            <td>拉扯脫困： 被吸附的玩家必須依靠隊友向反方向的強力拉扯來掙脫，如果拉扯不及，會被吸附至死。</td>
+                            <td>象徵黑暗對角色個體意識的腐蝕與吞噬。</td>
+                        </tr>
+                    </table>
+
+                    <h3 style="color: #ffffff; font-size: larger;">5、遊戲元素與故事的結合</h3>
+                    <p>一、繫線：<br>是「光心」最後的能量，也是彼此生命的延伸，它既是束縛，也是力量傳輸的媒介。</p>
+                    <p>二、無盡跑酷：<br>象徵「光流」必須持續流動以維持世界的動力，停止即代表死亡。</p>
+                    <p>三、陷阱/障礙物：<br>象徵「光流」必須持續流動以維持世界的動力，停止即代表死亡。</p>
+                    <p>四、命數（撞擊 3 次）：<br>代表「光心」能為角色進行共鳴修復的次數。</p>
+                    <p>五、掉入洞中（即結束此回合）：<br>象徵被「虛無之黯」徹底吞噬，連「光心」也無法將其喚回。</p>
+                    <p>六、稀有迴音（黃色）：<br>價值 5 個光流，增加分數， 是「光之民」遺留的、最為珍貴的核心能量碎片，收集它能快速穩定瀕死的「光心」動能。</p>
+                    <p>七、光流迴音（紫色）：<br>價值 1 個光流，增加分數， 代表世界必須持續流動的微小動力，它的存在提醒著精靈們：停止即代表死亡。</p>
+                    <p>八、黃色藥水：<br>專屬光之精靈，恢復其生命，誕生於「光心」中最純淨的能量，只能與代表希望與記憶的光之精靈產生共鳴。</p>
+                    <p>九、紫色藥水：<br>專屬影之精靈，恢復其生命，混合了「光心」與「虛無之黯」邊緣能量的產物，只能與承載衰敗警訊的影之精靈產生共鳴。</p>
+                    <p>十、綠色藥水（陷阱）：<br>使兩位玩家同時扣除一條生命， 這是黑暗力量故意設置的誘惑，一旦觸碰，會瞬間切斷光與影的共鳴平衡，造成生命的雙重損失。</p>
+                    <p>十一、沿途的「迴音」：<br>是「光之民」遺留的能量碎片，收集後能強化「光流」（分數增加）。</p>
+                    <p style="text-align: right;"><a href="#top" style="color:white;">回到上方 ▲</a></p>
+                </section>
+
+                <section id="sec4">
+                    <h2 class="section-title">肆、遊戲流程</h2>
+                    <p>玩家從開始到結束一輪遊戲的流程（如：開始奔跑 →收集迴音→ 躲避陷阱→死亡/刷新 →重新開始）。</p>
+                    <img src="public_html/GIMG/A1.png">
+                    <p style="text-align: right;"><a href="#top" style="color:white;">回到上方 ▲</a></p>
+                </section>
+
+                <section id="sec5">
+                    <h2 class="section-title">伍、角色設定</h2>
+                    <h3 style="color: #ffffff; font-size: larger;">1、光之精靈：</h3>
+                    <img src="public_html/GIMG/B1.png">
+                    <p style="font-size: small;">
+                        造型：<br>呈現為一個水滴狀或火焰狀的柔軟、圓潤身軀，頭部有向上流動的形狀，象徵著「光」的輕盈、向上與不滅，其簡潔的輪廓讓其在高速移動的酷跑遊戲中具有良好的辨識度。</p>
+                    <p style="font-size: small;">
+                        意義：<br>粉紅色通常與溫暖、愛、希望相關，避免了傳統上「光」的黃色，使其更顯獨特和溫和，從粉色到白色的漸變，暗示著純潔與光明逐漸擴散的感覺，這種暖色調在遊戲的暗色場景中會非常醒目，象徵著點亮前路的希望。
+                    </p>
+                    <p style="font-size: small;">色票：</p>
+                    <img src="public_html/GIMG/B2.png">
+                    <p style="font-size: small;">起源意義誕生於「光心」中最純淨、最不願放棄的能量，她代表著過去「光之民」所留下的美好記憶與對世界復甦的渴望。</p>
+                    <p style="font-size: small;">性格特質樂觀、直覺強、行動派，傾向於引導方向和探索，是推動兩人持續奔跑的「動力」。</p>
+                    <h3 style="color: #ffffff; font-size: larger;">2、影之精靈：</h3>
+                    <img src="public_html/GIMG/B3.png">
+                    <p style="font-size: small;">
+                        造型：<br>呈現為一個方塊狀的、相對堅固的身軀，頭部有向上的、類似火焰或尖刺的形狀，象徵著「影」的沉重、堅定與警戒，其穩固的形態暗示其「錨點」和「保護者」的角色。</p>
+                    <p style="font-size: small;">
+                        意義：<br>藍色與沉穩、理性、憂鬱和神秘感相關，而黑色則代表著陰影和未知，這種冷色調與艾歐的暖色調形成鮮明對比，強化了兩者的互補關係，由藍到黑的漸變，暗示著影子的深邃與潛藏的力量，明亮的眼睛在深色身體上格外突出，象顯其在黑暗中洞察一切的能力。
+                    </p>
+                    <p style="font-size: small;">色票：</p>
+                    <img src="public_html/GIMG/B4.png">
+                    <p style="font-size: small;">起源意義誕生於「光心」能量與周遭「虛無之黯」殘響的結合，他承載著世界衰敗的警訊與潛在的威脅。</p>
+                    <p style="font-size: small;">性格特質謹慎、沉穩、本能地防禦，傾向於觀察和判斷危險，是確保兩人不墜落的「錨點」。</p>
+
+                    <h3 style="color: #ffffff; font-size: larger;">3、虛無之黯設計</h3>
+                    <h3 style="color: #ffffff; font-size: medium;">一、闇影吞噬者：</h3>
+                    <img src="public_html/GIMG/B5.png">
+                    <p style="font-size: small;">1、形態特徵：<br> 多眼、利齒、圓潤且龐大的黑影生物，散發著純粹的飢餓感。</p>
+                    <p style="font-size: small;">2、攻擊模式與傷害：<br>【追趕與衝撞 (持續威脅)】<br>
+                        牠通常出現在最底下的通道，作為一個不斷逼近的「死亡邊界」，牠會緩慢但穩定地向右移動，若玩家速度過慢被追上，會被直接吞噬，兩位玩家同時損失一條生命。<br>【突進撕咬 (瞬間傷害)】<br>
+                        在特定區域，牠會突然加速向前衝刺一段距離。若任何一位精靈被其利齒觸碰，該精靈會立即受傷（需使用對應藥水恢復）。</p>
+                    <p style="font-size: small;">
+                        3、世界觀設定：<br>牠是「虛無之黯」對生命能量最原始渴望的具現，牠的目標不是切斷繫線，而是將一切發光的、有活力的個體連同其存在的痕跡一同吞入虛無之中，因此被牠追上意味著徹底的終結。</p>
+                    <p style="font-size: small;">4、玩家躲避策略 (合作機制)：<br>【極限同步奔跑】<br>
+                        面對後方追趕的吞噬者，唯一的解法是保持高速度，兩位玩家必須完美同步跳躍與擺盪，避免任何一人失誤拖慢整體速度。<br>【繫線彈射】<br>
+                        當吞噬者發動突進時，位於前方或高處的精靈必須尋找穩固地形作為錨點，另一位精靈則利用繫線的張力進行快速彈射，瞬間拉開距離以躲避撕咬。</p>
+                    <h3 style="color: #ffffff; font-size: medium;">二、羈絆截斷者：</h3>
+                    <img src="public_html/GIMG/B6.png">
+                    <p style="font-size: small;">1、形態特徵： <br>形態最為複雜，由無數尖銳的荊棘、糾結的觸手與巨大的利爪構成，通常盤據在關卡多條分岔路徑的其中一條。</p>
+                    <p style="font-size: small;">2、攻擊模式與傷害：<br>【休眠式區域封鎖】<br> 牠平時處於偽裝休眠狀態，外觀與環境遺跡融為一體，但周身佈滿細小的「共鳴尖刺」。<br>
+                        【毀滅式甦醒】 <br>只要玩家的本體觸碰到尖刺，會瞬間喚醒其內核。截斷者將瘋狂擴張並粉碎周圍的一切，導致該關卡現實崩壞，遊戲直接終結。<br>
+                        【繫線感應陷阱】<br> 牠的核心對「繫線」的能量極度敏感。若兩位精靈試圖從其兩側繞過，導致繫線橫跨並觸碰其核心區域，繫線會被瞬間切斷，造成世界觀中的「靈魂斷裂」，遊戲失敗。
+                    </p>
+                    <p style="font-size: small;">
+                        3、世界觀設定：<br>【秩序與混亂的邊界】截斷者並非主動掠食者，而是大災難後世界產生的「防衛性病毒」，牠們將所有「連結（繫線）」視為干擾大寂靜的雜訊。<br>
+                        【對「穩定度」的考驗】<br>它之所以休眠，是因為它在監測世界的穩定，當玩家觸碰尖刺或試圖包圍它時，產生的強大能量波動會觸發它的自毀程式，將這個不穩定的區域（連同玩家）徹底從現實中抹除。
+                    </p>
+                    <p style="font-size: small;">4、玩家躲避策略 (合作機制)：<br>【決策溝通】<br>面對分岔路徑，玩家必須快速溝通：<br>哪一條路徑的「截斷者」尖刺較少？
+                        一旦選定一條路徑（例如繞過上方），兩位精靈嚴禁分開行走。<br>
+                        【高低同步躍遷】<br>玩家必須利用「繫線」的弛力，確保兩人緊貼在一起通過，若要從其上方繞過，通常需採取「同步跳躍」，一人跳躍時，另一人必須在極短時間內跟上，否則繃緊的繫線一樣會掃過截斷者的尖刺。
+                    </p>
+                    <h3 style="color: #ffffff; font-size: medium;">三、無聲利刃：</h3>
+                    <img src="public_html/GIMG/B7.png">
+                    <p style="font-size: small;">1、形態特徵： <br>簡潔、銳利，如同從牆壁或地面突然伸出的黑色刀鋒或尖刺，幾乎沒有預兆。</p>
+                    <p style="font-size: small;">2、攻擊模式與傷害：<br>【高速伸縮突襲】<br> 牠們隱藏在環境陰影中，會以極快的速度突然出現撤回。<br>
+                    </p>
+                    <p style="font-size: small;">
+                        3、世界觀設定：<br>秩牠們代表「大寂靜」災難後世界中潛藏的、不可預知的危險，就像災難發生時一樣，毀滅總是突然且無聲地降臨，旨在考驗倖存者的警覺性與反應本能。
+                    </p>
+                    <p style="font-size: small;">4、玩家躲避策略 (合作機制)：<br>【觀察與預判】<br> 無聲利刃雖然快速，但通常有固定的伸縮規律（每隔 2
+                        秒伸出一次），玩家需要停下來觀察其節奏同時注意不被捲軸捲入。
+                    </p>
+                    <p style="text-align: right;"><a href="#top" style="color:white;">回到上方 ▲</a></p>
+                </section>
+
+                <section id="sec6">
+                    <h2 class="section-title">陸、關卡設計</h2>
+                    <table>
+                        <tr>
+                            <th>關卡</th>
+                            <th>中文名稱</th>
+                            <th>英文名稱</th>
+                            <th>建議秒數</th>
+                            <th>開發重點與配置</th>
+                        </tr>
+                        <tr>
+                            <td>001</td>
+                            <td>微光初醒</td>
+                            <td>Glimmering Awakening</td>
+                            <td>120s</td>
+                            <td>教學引導：設計寬敞的安全區域，讓玩家在無威脅下練習繫線的拉扯與同步跳躍。</td>
+                        </tr>
+                        <tr>
+                            <td>002</td>
+                            <td>共生之徑</td>
+                            <td>Path of Symbiosis</td>
+                            <td>110s</td>
+                            <td>資源管理初試：提高黃色與紫色藥水拾取頻率，強制玩家練習「幫隊友存藥水」的動作。</td>
+                        </tr>
+                        <tr>
+                            <td>003</td>
+                            <td>遺落殘篇</td>
+                            <td>Fragments of the Lost</td>
+                            <td>100s</td>
+                            <td>基礎平台跳躍：加入漂浮移動平台，測試兩人在繫線限制下的距離感。</td>
+                        </tr>
+                        <tr>
+                            <td>004</td>
+                            <td>靜默迴響</td>
+                            <td>Silent Echoes</td>
+                            <td>90s</td>
+                            <td>初遇威脅：正式配置第一種怪物「無聲利刃」，玩家需練習觀察伸縮規律並交替通過。</td>
+                        </tr>
+                        <tr>
+                            <td>005</td>
+                            <td>絆之試煉</td>
+                            <td>Trial of the Bond</td>
+                            <td>85s</td>
+                            <td>中段總結：配置「羈絆截斷者」，要求玩家必須緊貼彼此移動（繫線鬆弛態），不可橫跨機關。</td>
+                        </tr>
+                        <tr>
+                            <td>006</td>
+                            <td>虛空裂隙</td>
+                            <td>Void Fissures</td>
+                            <td>80s</td>
+                            <td>追逐戰開始：設計「闇影吞噬者」的追逐路徑，玩家必須保持高節奏移動，不可回頭。</td>
+                        </tr>
+                        <tr>
+                            <td>007</td>
+                            <td>記憶織線</td>
+                            <td>Weaving Memories</td>
+                            <td>75s</td>
+                            <td>高壓組合陷阱：配置「羈絆截斷者」與「吞噬活塞」的組合，要求玩家在極短時間內判斷鬆緊策略。</td>
+                        </tr>
+                        <tr>
+                            <td>008</td>
+                            <td>幽邃心核</td>
+                            <td>The Deep Core</td>
+                            <td>70s</td>
+                            <td>極限跑酷 (I)：大幅減少藥水分布，增加綠色陷阱藥水，要求極高精準度，確保 70 秒內能通過。</td>
+                        </tr>
+                        <tr>
+                            <td>009</td>
+                            <td>極光奔襲</td>
+                            <td>Auroral Sprint</td>
+                            <td>65s</td>
+                            <td>極限跑酷 (II)：以連續的空中懸吊點為主，測試兩人在 65 秒內的空中盪越與同步著地能力。</td>
+                        </tr>
+                        <tr>
+                            <td>010</td>
+                            <td>萬象共振</td>
+                            <td>Grand Resonance</td>
+                            <td>60s</td>
+                            <td>最終試煉：完美的 60 秒衝刺，混合所有怪物與機關。必須達成「光影同步」才能在最後限時內抵達終點。</td>
+                        </tr>
+                    </table>
+                    <p style="text-align: right;"><a href="#top" style="color:white;">回到上方 ▲</a></p>
+                </section>
+
+                <section id="sec7">
+                    <h2 class="section-title">柒、標準字設計</h2>
+                    <img src="public_html/GIMG/B8.png">
+                    <p>標準字採用粗體、塊狀的字型，呈現出古老遺跡般的厚重感，與遊戲背景「迴音之境」的氛圍相符。
+                        以一條橫線貫穿 BOUND，代表了那條不可分離的繫線，它貫穿了角色的生命與旅程，這條線既是物理上的束縛（貫穿限制），也是能量流動的通道。
+                        字母的邊緣並非平滑，而是被拉扯、滲透、甚至帶有火焰和水滴的模糊邊緣，模仿了角色身上的霓虹光暈與動態能量。
+                        主標題「BOUND」的粗獷與細長副標題「-TOGETHER-」的簡潔，形成視覺上的層次感，強調了「束縛」的巨大份量與「在一起」的堅定信念。
+                        字母 B 的左側邊緣被設計成光精靈頭部的水滴狀輪廓，代表著旅程的起點，由代表「希望」與「動力」的光精靈率先引領。
+                        在 U、N 等字母的中加入了鋸齒狀或火焰狀，模仿了穎精靈頭部的尖銳火焰特徵，象徵著「影」和「虛無之黯」的警惕與潛在危險，無時無刻不在侵蝕著光明。
+                    </p>
+                    <p>色票：</p>
+                    <img src="public_html/GIMG/B9.png">
+                    <p style="text-align: right;"><a href="#top" style="color:white;">回到上方 ▲</a></p>
+                </section>
+
+                <section id="sec8">
+                    <h2 class="section-title">捌、介面設計</h2>
+                    <p>1、主畫面</p>
+                    <!-- 故事投影片 -->
+                    <div class="story-slider" data-slider="chars1">
+                        <img class="proposal-img slider-img" data-slide-img src="public_html/GIMG/C1.jpg">
+
+                        <div class="slider-controls">
+                            <button onclick="prevSlide('chars1')">◀</button>
+                            <button onclick="togglePlay('chars1')">▶</button>
+                            <button onclick="nextSlide('chars1')">▶</button>
+                        </div>
+                    </div>
+                   
+                    <p style="text-align: right;"><a href="#top" style="color:white;">回到上方 ▲</a></p>
+                </section>
+
+                <section id="sec9">
+                    <h2 class="section-title">玖、工作分配</h2>
+                    <table>
+                        <tr>
+                            <th>黃玟潔(美術與視覺)</th>
+                            <th>詳細工作內容</th>
+                        </tr>
+                        <tr>
+                            <td>主視覺 (Key Visual)</td>
+                            <td>1. 遊戲標題 Logo 設計。<br>
+                                2. 官方海報與載入畫面 (Loading Screen) 繪製。</td>
+                        </tr>
+                        <tr>
+                            <td>角色設計</td>
+                            <td>1. 光精靈 (Light)：45°/30° 角樣貌與跑步、跳躍、受傷動畫幀。<br>2. 影精靈 (Shadow)：對應動畫幀與物理碰撞外型。</td>
+                        </tr>
+                        <tr>
+                            <td>UI 介面清單</td>
+                            <td>1. 主選單：Local Bond, Online Bond 按鈕。<br>
+                                2. 連線介面：Forge Bond, Resonate, 房間代碼輸入框。<br>
+                                3. 關卡選擇：001-010 關卡按鈕與鎖定狀態圖示。<br>
+                                4. 遊戲內 HUD：共用生命值(心形)、倒數計時器、距離進度條、迴音數量、藥水儲存格。<br>
+                                5. 無盡模式選單：Reconnect, Begin Anew, Hall of Resonance 按鈕。
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>物件設計</td>
+                            <td>1. 藥水（黃、紫、綠）與迴音（黃金、紫色星形）素材。<br>
+                                2. 怪物素材（闇影吞噬者、羈絆截斷者、無聲利刃）。
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table>
+                        <tr>
+                            <th>楊舒喩(音效)</th>
+                            <th>需求數量</th>
+                            <th>配置畫面 / 觸發時機</th>
+                        </tr>
+                        <tr>
+                            <td>背景音樂(BGM)</td>
+                            <td>3首</td>
+                            <td>1. Main Menu：神祕且帶有期待感。<br>
+                                2. Echoing Trials：隨關卡進度節奏加快，後半段(6-10關)增加緊張感。<br>
+                                3. Eternal Resonance：節奏感強烈，隨速度提升動態改變頻率。
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>角色音效(SFX)</td>
+                            <td>約5-8個</td>
+                            <td>跳躍聲、落地聲、繫線拉緊的緊繃聲、角色碰撞受傷聲、角色死亡/心碎聲。</td>
+                        </tr>
+                        <tr>
+                            <td>環境與系統(SFX)</td>
+                            <td>約10個</td>
+                            <td>藥水拾取（正確/錯誤藥水的音效區隔）、收集迴音的清脆聲、倒數計時最後 10 秒的警示音、怪物攻擊/出現聲（如吞噬者的咆哮、利刃的伸縮聲）。</td>
+                        </tr>
+                    </table>
+
+                    <table>
+                        <tr>
+                            <th>負責人</th>
+                            <th>關卡範疇</th>
+                            <th>工作重點</th>
+                        </tr>
+                        <tr>
+                            <td>孫韻文</td>
+                            <td>001-005關</td>
+                            <td>1. 教學引導：設計安全區域讓玩家練習繫線物理。<br>
+                                2. 簡單機關：配置基礎平台跳躍與第一種怪物「無聲利刃」。<br>
+                                3. 資源分布：設定前期藥水的拾取頻率，確保玩家學會儲存藥水。
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>陳天豪</td>
+                            <td>006-010關</td>
+                            <td>1. 高壓陷阱：配置「羈絆截斷者」與「吞噬活塞」的組合機關。<br>
+                                2. 極限跑酷：計算最後三關(8, 9, 10)的移動路線，確保 60-70 秒內能跑完。<br>
+                                3. 怪物配置：設計「闇影吞噬者」的追逐路徑。
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>共同任務</td>
+                            <td>無盡模式</td>
+                            <td>設計多種隨機生成的「區塊 (Chunks)」，確保無盡模式的變化性。</td>
+                        </tr>
+                    </table>
+
+                    <table>
+                        <tr>
+                            <th>負責人</th>
+                            <th>模組名稱</th>
+                            <th>詳細工作內容</th>
+                        </tr>
+                        <tr>
+                            <td>呂友辰 (物理/核心)</td>
+                            <td>Player & Tether</td>
+                            <td>1. Character Controller：雙人移動、跳躍、碰撞箱判定。<br>
+                                2. Verlet Integration / Spring Physics：開發那條「繫線」，包含拉力傳導、長度限制、繩子視覺渲染。<br>
+                                3. Monster AI：實作吞噬者的追逐邏輯與利刃的伸縮計時。
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>許立楷 (系統/邏輯)</td>
+                            <td>Game Systems</td>
+                            <td>1. Network/Sync：Local 分割畫面與 Online Room (Photon/Mirror) 串接。<br>
+                                2. Inventory & Health：藥水拾取判定、儲存、扣血邏輯。<br>
+                                3. Game State Manager：倒數計時器、關卡加載、分數結算、排行榜串接。
+                            </td>
+                        </tr>
+                    </table>
+
+                    <p style="text-align: right;"><a href="#top" style="color:white;">回到上方 ▲</a></p>
+                </section>
+
+                <section id="sec10">
+                    <h2 class="section-title">拾、參考遊戲</h2>
+                    <p>場景參考：空洞騎士：絲綢之歌<br>
+                        遊戲設定參考：Badland(繫線)、SUPER MARIO BROS(虛無之黯)</p>
+                        <img src="public_html/GIMG/D1.jpg" style="width:43%;">
+                        <img src="public_html/GIMG/D2.jpg" style="width:43%;">
+                </section>
+
+                <p style="text-align: right;"><a href="#top" style="color:white;">回到上方 ▲</a></p>
+            </div>
+        </main>
+
+        <footer>
+            <div class="nav-container">
+                <a href="introl.html" class="nav-btn">個人介紹</a>
+                <a href="3_ALL.html" class="nav-btn" target="_blank" rel="noopener noreferrer">網站練習</a>
+                <a href="IPP.html" class="nav-btn">個人企劃書</a>
+                <a href="#" class="nav-btn active">團隊企劃書</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const sliders = {
+            chars1: {
+                images: [
+                    "public_html/GIMG/C1.jpg",
+                    "public_html/GIMG/C2.jpg",
+                    "public_html/GIMG/C3.jpg",
+                    "public_html/GIMG/C4.jpg",
+                    "public_html/GIMG/C5.jpg",
+                    "public_html/GIMG/C6.jpg",
+                    "public_html/GIMG/C7.jpg",
+                    "public_html/GIMG/C8.jpg",
+                    "public_html/GIMG/C9.jpg",
+                ],
+                index: 0
+            }
+        };
+
+        function showSlide(sliderId) {
+            const s = sliders[sliderId];
+            const img = document.querySelector(`.story-slider[data-slider="${sliderId}"] .slider-img`);
+            img.style.opacity = 0;
+            setTimeout(() => {
+                img.src = s.images[s.index];
+                img.style.opacity = 1;
+            }, 300);
+        }
+
+        function nextSlide(sliderId) {
+            const s = sliders[sliderId];
+            s.index = (s.index + 1) % s.images.length;
+            showSlide(sliderId);
+        }
+
+        function prevSlide(sliderId) {
+            const s = sliders[sliderId];
+            s.index = (s.index - 1 + s.images.length) % s.images.length;
+            showSlide(sliderId);
+        }
+    </script>
+
+</body>
+
+</html>
