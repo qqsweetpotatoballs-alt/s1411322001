@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>期末作業區 - 多媒體系統設計</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Varela+Round&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* --- 全域設定：維持 1920x1080 比例感與黑邊 --- */
+        * {
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000000;
+        }
+
+        .page-wrapper {
+            width: 100vw;
+            height: 100vh;
+            min-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            /* 左右 200px 黑邊 */
+            border-left: 200px solid black;
+            border-right: 200px solid black;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url("IMG/bg.png");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        header {
+            width: 100%;
+            height: 150px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 0 50px;
+            z-index: 10;
+        }
+
+        .top-left-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .profile-circle {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .profile-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .site-title {
+            font-family: 'Varela Round', sans-serif;
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #ffffff, #bbbbbb, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .site-title a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- 中央主要資訊區塊 --- */
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 50px;
+            /* 向左平移 120px 以平衡右側導覽列的視覺重量 */
+            transform: translateX(-120px);
+        }
+
+        .final-container {
+            background-color: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            width: 1050px;
+            height: calc(100vh - 220px);
+            padding: 50px 70px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+        }
+
+        .final-header {
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        .final-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            margin: 0;
+            background: linear-gradient(45deg, #ffffff, #cccccc, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .final-subtitle {
+            font-family: 'Varela Round', "Microsoft JhengHei", sans-serif;
+            color: #aaa;
+            margin-top: 10px;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+        }
+
+        /* --- 網格 UI 設計 (8個按鈕) --- */
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2欄版面 */
+            gap: 25px;
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+        }
+
+        .work-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .work-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #ffffff, rgba(255, 255, 255, 0.2));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .work-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .work-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-info h3 {
+            margin: 0 0 10px 0;
+            color: #ffffff;
+            font-family: 'Varela Round', "Microsoft JhengHei", sans-serif;
+            font-size: 1.25rem;
+            letter-spacing: 1px;
+        }
+
+        .card-info p {
+            margin: 0;
+            color: #b0b0b0;
+            font-family: 'Varela Round', "Microsoft JhengHei", sans-serif;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .go-btn {
+            align-self: flex-end;
+            font-family: 'Varela Round', sans-serif;
+            font-size: 0.85rem;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 6px 16px;
+            border-radius: 20px;
+            margin-top: 15px;
+            transition: 0.3s;
+        }
+
+        .work-card:hover .go-btn {
+            background: #ffffff;
+            color: #000000;
+        }
+
+        /* --- Footer 導覽 --- */
+        footer {
+            position: absolute;
+            bottom: 35px;
+            right: 50px;
+            z-index: 10;
+        }
+
+        .nav-container {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 200px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-btn {
+            font-family: 'Varela Round', sans-serif;
+            border-radius: 50px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .nav-btn:hover {
+            background: white;
+            color: #000;
+            transform: scale(1.05) translateX(-5px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-btn.active {
+            background: white;
+            color: #000;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page-wrapper">
+        <header>
+            <div class="top-left-info">
+                <div class="profile-circle">
+                    <img src="IMG/icon.png" alt="Profile">
+                </div>
+                <div class="site-title">
+                    <a href="index.html">多媒體系統設計．個人網站</a>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="final-container">
+                <div class="final-header">
+                    <h1 class="final-title">Final Project</h1>
+                    <div class="final-subtitle">期末作業與成果展現專區</div>
+                </div>
+
+                <div class="work-grid">
+                    
+                    <a href="https://drive.google.com/file/d/1xpPuATtX5DMfF8eLVoTZehkLk3qsU-_p/view?usp=sharing" target="_blank" class="work-card">
+                        <div class="card-info">
+                            <h3>1. Bound Together 期末報告書</h3>
+                            <p>團隊企劃與開發成果的完整 PDF 紀錄報告書。</p>
+                        </div>
+                        <div class="go-btn">View PDF</div>
+                    </a>
+
+                    <a href="https://drive.google.com/file/d/1NCdJNq4cpdK6BQGr3_0TdICbI_j4HMQ9/view?usp=sharing" target="_blank" class="work-card">
+                        <div class="card-info">
+                            <h3>2. Bound Together 宣傳片</h3>
+                            <p>遊戲核心機制「繫線雙人合作」的精彩實機畫面與前導宣傳短片。</p>
+                        </div>
+                        <div class="go-btn">Watch Video</div>
+                    </a>
+
+                    <a href="https://drive.google.com/file/d/13eghj73ntRSn5t1Ev9lqGjZIIsG8xs3A/view?usp=sharing" target="_blank" class="work-card">
+                        <div class="card-info">
+                            <h3>3. Bound Together 展場設計</h3>
+                            <p>來自組長的精心設計。</p>
+                        </div>
+                        <div class="go-btn">Download PPT</div>
+                    </a>
+
+                    <a href="https://drive.google.com/file/d/1xpPuATtX5DMfF8eLVoTZehkLk3qsU-_p/view?usp=sharing" target="_blank" class="work-card">
+                        <div class="card-info">
+                            <h3>4. Bound Together 結案報告書</h3>
+                            <p>專案時程、工作分配以及最終產出回顧之結案文件。</p>
+                        </div>
+                        <div class="go-btn">View PDF</div>
+                    </a>
+
+                    <a href="https://drive.google.com/file/d/1xY3JYiZAYg-kdwzXjYJ-89NrVYa1uxuH/view?usp=sharing" target="_blank" class="work-card">
+                        <div class="card-info">
+                            <h3>5. 遊戲下載</h3>
+                            <p>《BOUND TOGETHER》PC/Mac 遊戲安裝包，立即體驗雙人同機共命的刺激酷跑。</p>
+                        </div>
+                        <div class="go-btn">Download Game</div>
+                    </a>
+
+                    <a href="https://drive.google.com/file/d/1MEJ622Y9DxG-g21rOTH_Ao0xXUqul3O-/view?usp=sharing" target="_blank" class="work-card">
+                        <div class="card-info">
+                            <h3>6. 個人貢獻報告書</h3>
+                            <p>陳天豪（美術/關卡設計/系統邏輯）個人於團隊專案中的具體貢獻與產出報告。</p>
+                        </div>
+                        <div class="go-btn">View PDF</div>
+                    </a>
+
+                    <a href="https://drive.google.com/file/d/1NCdJNq4cpdK6BQGr3_0TdICbI_j4HMQ9/view?usp=sharing" target="_blank" class="work-card">
+                        <div class="card-info">
+                            <h3>7. 個人宣傳影片</h3>
+                            <p>著重於個人製作部分的技術展示與創作歷程分享宣傳片。</p>
+                        </div>
+                        <div class="go-btn">Watch Video</div>
+                    </a>
+
+                    <a href="https://drive.google.com/file/d/17FcZ6wuSdyYSqrYnZOf__YZtn3nJhNoU/view?usp=sharing" target="_blank" class="work-card">
+                        <div class="card-info">
+                            <h3>8. 個人展場海報</h3>
+                            <p>針對期末成果展所設計的高解析度展場 A1 宣傳海報檔案。</p>
+                        </div>
+                        <div class="go-btn">View Image</div>
+                    </a>
+
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="nav-container">
+                <a href="index.html" class="nav-btn">首頁</a>
+                <a href="introl.html" class="nav-btn">個人介紹</a>
+                <a href="3_ALL.html" class="nav-btn" target="_blank" rel="noopener noreferrer">網站練習</a>
+                <a href="IPP.html" class="nav-btn">個人企劃書</a>
+                <a href="GPP.html" class="nav-btn">團隊企劃書</a>
+                <a class="nav-btn active">期末作業區</a>
+            </div>
+        </footer>
+    </div>
+
+</body>
+
+</html>
